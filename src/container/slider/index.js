@@ -34,41 +34,46 @@ class Slider {
 
   // для прокрутки визначаемо де ми знаходимося скрол влево и на яку ширину можемо прокрутити
   static #slide = (side) => {
-    const offsetWidth = this.#content.offsetWidth // актуальна ширина, навіть при меньшенні шир екрану
-    const scrollLeft = this.#content.scrollLeft // скільки вже покручено
-    const scrollWidth = this.#content.scrollWidth // яка доступна ширина ще
+  const offsetWidth = this.#content.offsetWidth;
+  const scrollLeft = this.#content.scrollLeft;
+  const scrollWidth = this.#content.scrollWidth;
 
-    let scroll = 0
+  let scroll = 0;
 
-    if (side === 'left') {
-      if (this.#count === 1 || scrollLeft === 0) {
-        this.#count = this.#max
-        scroll = (this.#count - 1) * offsetWidth
-      } else {
-        this.#count -= 1
-        scroll = (this.#count - 1) * offsetWidth
-      }
+  if (side === 'left') {
+    if (this.#count === 1 || scrollLeft === 0) {
+      this.#count = this.#max;
+      scroll = (this.#count - 1) * offsetWidth;
+    } else {
+      this.#count -= 1;
+      scroll = (this.#count - 1) * offsetWidth;
     }
-
-    if (side === 'right') {
-       if (
-        this.#count === this.#max ||
-        scrollLeft === scrollWidth - offsetWidth)
-         {
-        this.#count = 1
-        scroll = 0
-      } else {
-        this.#count += 1
-        scroll = (this.#count - 1) * offsetWidth
-      }
-    }
-
-    this.#content.scrollTo({
-      top: 0,
-      left: scroll,
-      behavior: 'smooth',
-    })
   }
+
+  if (side === 'right') {
+    if (this.#count === this.#max || scrollLeft === scrollWidth - offsetWidth) {
+      this.#count = 1;
+      scroll = 0;
+    } else {
+      this.#count += 1;
+      scroll = (this.#count - 1) * offsetWidth;
+    }
+  }
+
+  this.#content.scrollTo({
+    top: 0,
+    left: scroll,
+    behavior: 'smooth',
+  });
+
+  this.updateButtonsVisibility();
+}
+
+// Приховаємо кнопку прокрутки якщо у тому напрямку це не можливо зробити
+  static updateButtonsVisibility = () => {
+  this.#left.classList.toggle('hidden', this.#count === 1);
+  this.#right.classList.toggle('hidden', this.#count === this.#max);
+}
 
 }
 
