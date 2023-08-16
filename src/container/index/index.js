@@ -1,6 +1,58 @@
-document.addEventListener("DOMContentLoaded", function() {
-    Slider.init();
-});
+
+
+
+
+
+class Header {
+  static #height = null   // инфо про висоту меню, яку треба сховати
+  static #wrapper = null   //  для визначення потрібного розміру для показу меню
+  static #button = null    // кнопка раскривного меню, зміна іконки
+
+  static #isOpen = false   // чи откріте вікно?
+
+
+
+  static init () {
+    this.#height = document.querySelector('.header__bottom').offsetHeight;
+
+    this.#wrapper = document.querySelector('.header__wrapper');
+    this.#button = document.querySelector('.header__button--open');
+
+    // Начальное состояние кнопки - открытое меню
+    this.#button.classList.add('header__button--open');
+    
+    this.#button.onclick = () => this.#toggle();
+  }
+
+  static init () {
+    this.#height = document.querySelector(
+      '.header__bottom',
+    ).offsetHeight
+
+    this.#wrapper = document.querySelector(
+      '.header__wrapper',)
+    this.#button = document.querySelector(
+      '.header__button--open')
+    this.#button.onclick = this.#toggle
+  }
+  // для зміни висоти врапера від х до 0, призначаємо зворотне значеня для isOpen
+
+  static #toggle = () => {
+    if (this.#isOpen) {
+      this.#button.classList.replace(
+        'header__button--close',
+        'header__button--open', )       // якщо відкрите - заміна на протилежне
+this.#wrapper.style.height = 0
+    } else {
+      this.#button.classList.replace(
+      'header__button--open',
+       'header__button--close',)      // якщо закрите - заміна на відкрите
+this.#wrapper.style.height = `${this.#height}px`
+    }
+    this.#isOpen = !this.#isOpen
+  }
+
+}
 
 class Slider {
   static #content = null // посилання на slider__content
@@ -27,9 +79,7 @@ class Slider {
     this.#right.onclick = () => this.#slide('right')
 
     this.updateButtonsVisibility(); // Добавляем вызов этой функции при инициализации
-
-  
-  
+   
   }
 
   // для прокрутки визначаемо де ми знаходимося скрол влево и на яку ширину можемо прокрутити

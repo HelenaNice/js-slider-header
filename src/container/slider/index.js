@@ -1,6 +1,38 @@
-document.addEventListener("DOMContentLoaded", function() {
-    Slider.init();
+
+
+// через конструктор робимо перемикач стану кнопки та меню
+class Header {
+    constructor() {
+        this.toggleButton = document.querySelector('.header__button--toggle');
+        this.menuWrapper = document.querySelector('.header__wrapper');
+// обробник евента по клику
+        this.toggleButton.addEventListener('click', this.toggleMenu.bind(this));
+    }
+// метод що плавно змінює висоту menuWrapper від 0 до 145пкс
+    toggleMenu() {
+        this.menuWrapper.style.transition = 'height 0.7s';
+// перевірка актуального стану та зміна стану кнопки
+        if (this.menuWrapper.style.height === '' || this.menuWrapper.style.height === '0px') {
+            this.menuWrapper.style.height = '145px';
+            this.toggleButton.classList.remove('header__button--open');
+            this.toggleButton.classList.add('header__button--close');
+        } else {
+            this.menuWrapper.style.height = '0';
+            this.toggleButton.classList.remove('header__button--close');
+            this.toggleButton.classList.add('header__button--open');
+        }
+    }
+// метод для ініціаціі меню з нульовою висотою
+    init() {
+        this.menuWrapper.style.height = '0';
+    }
+}
+// тільки після повного завантаженя сторінки скрипт  спрацює
+document.addEventListener('DOMContentLoaded', () => {
+    const header = new Header();
+    header.init();
 });
+
 
 class Slider {
   static #content = null // посилання на slider__content
@@ -70,11 +102,18 @@ class Slider {
 }
 
 // Приховаємо кнопку прокрутки якщо у тому напрямку це не можливо зробити
-  static updateButtonsVisibility = () => {
-  this.#left.classList.toggle('hidden', this.#count === 1);
-  this.#right.classList.toggle('hidden', this.#count === this.#max);
+  static updateButtonsVisibility() {
+    this.#left.classList.toggle('hidden', this.#count === 1);
+    this.#right.classList.toggle('hidden', this.#count === this.#max);
+  }
 }
 
-}
+document.addEventListener('DOMContentLoaded', () => {
+    Slider.init();
+});
 
-Slider.init()
+
+
+
+
+
