@@ -1,17 +1,13 @@
 
-
-
-
-
 class Header {
-  static #height = null   // инфо про висоту меню, яку треба сховати
+  static #height = null   // инфо про висоту меню header__bottom, яку треба сховати
   static #wrapper = null   //  для визначення потрібного розміру для показу меню
   static #button = null    // кнопка раскривного меню, зміна іконки
 
   static #isOpen = false   // чи откріте вікно?
 
 
-
+// статичний метод 
   static init () {
     this.#height = document.querySelector('.header__bottom').offsetHeight;
 
@@ -53,6 +49,7 @@ this.#wrapper.style.height = `${this.#height}px`
   }
 
 }
+Header.init()
 
 class Slider {
   static #content = null // посилання на slider__content
